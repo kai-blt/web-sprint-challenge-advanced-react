@@ -6,7 +6,8 @@ export default class PlantList extends Component {
   constructor() {
     super();
     this.state = {
-      plants: []
+      plants: [],
+      filter: ''
     };
   }  
 
@@ -23,11 +24,22 @@ export default class PlantList extends Component {
       })
   }
 
+
+
   /*********  DON'T CHANGE ANYTHING IN THE RENDER FUNCTION *********/
   render() {
     return (
-      <main className="plant-list">
-        {this.state?.plants?.map((plant) => (
+      <main className="plant-list">        
+      {/*Added filter option to plants list! It makes both values case insensitive by
+      making both the user typed in value and the name of the plant read from the
+      mapped value to lower case*/}
+        <label htmlFor="search">Search:</label>        
+        <input
+          name="search"
+          value={this.state.filter}
+          onChange={e => this.setState({filter: e.target.value.toLowerCase()})}
+        />
+        {this.state?.plants?.filter(plant => plant.name.toLowerCase().includes(this.state.filter)).map((plant) => (
           <div className="plant-card" key={plant.id}>
             <img className="plant-image" src={plant.img} alt={plant.name} />
             <div className="plant-details">
